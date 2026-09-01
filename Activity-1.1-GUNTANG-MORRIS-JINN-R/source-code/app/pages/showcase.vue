@@ -70,8 +70,8 @@ useHead({
               <h3>Image</h3>
               <div class="image-preview">
                 <BaseImage
-                  src="/images/hundred-islands.svg"
-                  alt="Illustrated islands and sea for showcase preview"
+                  src="/images/hundred-islands.jpg"
+                  alt="Hundred Islands National Park for showcase preview"
                   eager
                 />
               </div>
