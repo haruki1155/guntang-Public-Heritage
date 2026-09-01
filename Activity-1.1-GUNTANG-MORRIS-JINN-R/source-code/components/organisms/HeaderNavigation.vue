@@ -37,6 +37,7 @@
 
 <style scoped>
 .site-header {
+  container-type: inline-size;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -68,7 +69,7 @@
   list-style: none;
 }
 
-@media (min-width: 48rem) {
+@container (min-width: 48rem) {
   .site-header__inner {
     display: flex;
     align-items: center;

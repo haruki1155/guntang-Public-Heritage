@@ -22,18 +22,19 @@ defineProps<{
 
 <style scoped>
 .heritage-grid {
+  container-type: inline-size;
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-3);
 }
 
-@media (min-width: 40rem) {
+@container (min-width: 40rem) {
   .heritage-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (min-width: 64rem) {
+@container (min-width: 64rem) {
   .heritage-grid {
     grid-template-columns: repeat(3, 1fr);
   }

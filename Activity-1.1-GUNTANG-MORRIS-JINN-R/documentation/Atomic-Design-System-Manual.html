@@ -301,7 +301,9 @@ withDefaults(
   <p><strong>Responsive Logic:</strong> The image fills its parent container at every breakpoint, relying on parent aspect-ratio containers to adapt card and preview proportions across layouts.</p>
   <p><strong>Code Reference:</strong> <code>components/atoms/BaseImage.vue</code></p>
   <pre><code>&lt;script setup lang=&quot;ts&quot;&gt;
-withDefaults(
+import { computed } from &#39;vue&#39;
+
+const props = withDefaults(
   defineProps&lt;{
     src: string
     alt: string
@@ -311,12 +313,28 @@ withDefaults(
     eager: false
   }
 )
+
+const config = useRuntimeConfig()
+
+const resolvedSrc = computed(() =&gt; {
+  // Leave absolute URLs and already-prefixed paths untouched.
+  if (/^(?:[a-z]+:)?\/\//i.test(props.src)) {
+    return props.src
+  }
+
+  const base = config.app.baseURL.replace(/\/$/, &#39;&#39;)
+  if (!base || props.src.startsWith(base)) {
+    return props.src
+  }
+
+  return `${base}${props.src}`
+})
 &lt;/script&gt;
 
 &lt;template&gt;
   &lt;img
     class=&quot;base-image&quot;
-    :src=&quot;src&quot;
+    :src=&quot;resolvedSrc&quot;
     :alt=&quot;alt&quot;
     :loading=&quot;eager ? &#39;eager&#39; : &#39;lazy&#39;&quot;
     decoding=&quot;async&quot;
@@ -566,6 +584,7 @@ const isRouteLink = computed(() =&gt; props.href.startsWith(&#39;/&#39;))
 
 &lt;style scoped&gt;
 .site-header {
+  container-type: inline-size;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -597,7 +616,7 @@ const isRouteLink = computed(() =&gt; props.href.startsWith(&#39;/&#39;))
   list-style: none;
 }
 
-@media (min-width: 48rem) {
+@container (min-width: 48rem) {
   .site-header__inner {
     display: flex;
     align-items: center;
@@ -643,18 +662,19 @@ defineProps&lt;{
 
 &lt;style scoped&gt;
 .heritage-grid {
+  container-type: inline-size;
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-3);
 }
 
-@media (min-width: 40rem) {
+@container (min-width: 40rem) {
   .heritage-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (min-width: 64rem) {
+@container (min-width: 64rem) {
   .heritage-grid {
     grid-template-columns: repeat(3, 1fr);
   }
