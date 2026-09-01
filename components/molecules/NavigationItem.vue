@@ -1,11 +1,19 @@
 <script setup lang="ts">
-defineProps<{
+import { computed } from 'vue'
+
+const props = defineProps<{
   href: string
 }>()
+
+const isRouteLink = computed(() => props.href.startsWith('/'))
 </script>
 
 <template>
-  <a class="navigation-item" :href="href">
+  <NuxtLink v-if="isRouteLink" class="navigation-item" :to="href">
+    <slot />
+  </NuxtLink>
+
+  <a v-else class="navigation-item" :href="href">
     <slot />
   </a>
 </template>
