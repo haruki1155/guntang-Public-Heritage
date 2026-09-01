@@ -55,4 +55,4 @@ npm run generate
 
 ## Live Website
 
-GitHub Pages: ADD_URL_HERE
+GitHub Pages: https://haruki1155.github.io/guntang-Public-Heritage/
