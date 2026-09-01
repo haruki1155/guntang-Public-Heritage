@@ -484,13 +484,21 @@ input {
   <p><strong>Responsive Logic:</strong> Navigation items remain inline and wrap when space is tight on mobile, while the parent header layout places them in a single row on wider screens.</p>
   <p><strong>Code Reference:</strong> <code>components/molecules/NavigationItem.vue</code></p>
   <pre><code>&lt;script setup lang=&quot;ts&quot;&gt;
-defineProps&lt;{
+import { computed } from &#39;vue&#39;
+
+const props = defineProps&lt;{
   href: string
 }&gt;()
+
+const isRouteLink = computed(() =&gt; props.href.startsWith(&#39;/&#39;))
 &lt;/script&gt;
 
 &lt;template&gt;
-  &lt;a class=&quot;navigation-item&quot; :href=&quot;href&quot;&gt;
+  &lt;NuxtLink v-if=&quot;isRouteLink&quot; class=&quot;navigation-item&quot; :to=&quot;href&quot;&gt;
+    &lt;slot /&gt;
+  &lt;/NuxtLink&gt;
+
+  &lt;a v-else class=&quot;navigation-item&quot; :href=&quot;href&quot;&gt;
     &lt;slot /&gt;
   &lt;/a&gt;
 &lt;/template&gt;

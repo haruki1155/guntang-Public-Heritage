@@ -20,7 +20,13 @@ const exclusions = new Set([
   'dist',
   'node_modules',
   submissionFolderName,
-  `${submissionFolderName}.zip`
+  `${submissionFolderName}.zip`,
+  'lighthouse-temp',
+  'lighthouse-report.html',
+  'lighthouse-report.json',
+  'lighthouse-report.pdf',
+  'lighthouse-report.report.html',
+  'lighthouse-report.report.json'
 ])
 
 const components = [
