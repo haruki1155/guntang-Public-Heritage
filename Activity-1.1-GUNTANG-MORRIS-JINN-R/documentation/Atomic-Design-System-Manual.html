@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atomic Design System Manual</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 2rem auto; color: #1d2925; max-width: 1080px; line-height: 1.6; }
+    h1, h2, h3 { color: #176b55; }
+    section { margin-bottom: 2.5rem; page-break-inside: avoid; }
+    pre { overflow-x: auto; background: #f5f7f6; padding: 1rem; border-radius: 12px; border: 1px solid #dce4e1; white-space: pre-wrap; }
+    code { font-family: Consolas, "Courier New", monospace; }
+    .grid { display: grid; gap: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>Atomic Design System Manual</h1>
+  <p><strong>Student:</strong> GUNTANG, MORRIS JINN R.</p>
+
+  <h2>1. Introduction</h2>
+  <p>This manual documents the actual component implementation used in the Pangasinan Heritage Digital Showcase. Every preview and code reference in this document comes from the submitted project.</p>
+
+  <h2>2. Design Principles</h2>
+  <ul>
+    <li>Mobile-first responsive layouts</li>
+    <li>Accessible semantic HTML</li>
+    <li>Small reusable components</li>
+    <li>Lightweight static assets</li>
+    <li>Consistent token-based styling</li>
+  </ul>
+
+  <h2>3. Color Tokens</h2>
+  <p>The design system centralizes color, spacing, radius, and shadow tokens in <code>app/assets/css/main.css</code> so the site remains visually consistent.</p>
+
+  <h2>4. Typography</h2>
+  <p>The site uses a simple Arial / Helvetica stack with semantic headings and body copy wrapped by the <code>BaseTypography</code> atom where reusable text behavior is helpful.</p>
+
+  <h2>5. Atomic Design Architecture</h2>
+  <p>Atoms provide the smallest reusable building blocks, molecules combine atoms into purposeful UI units, and organisms assemble full interface sections such as the header and destination grid.</p>
+
+  <h2>6. Atoms</h2>
+  <section>
+  <h3>Button</h3>
+  <p><strong>Atomic Level:</strong> Atom</p>
+  <p><strong>Visual Preview:</strong></p>
+  <img src="screenshots/button.png" alt="Button preview" style="max-width: 100%; border: 1px solid #dce4e1; border-radius: 12px;" />
+  <p><strong>Usage Context:</strong> Used in the search form as the primary call-to-action and in the component showcase as the reusable button atom.</p>
+  <p><strong>Responsive Logic:</strong> The button keeps a minimum 44px tap height on mobile, scales naturally with its content on tablet and desktop, and preserves a strong contrast state for hover and focus.</p>
+  <p><strong>Code Reference:</strong> <code>components/atoms/BaseButton.vue</code></p>
+  <pre><code>&lt;script setup lang=&quot;ts&quot;&gt;
+withDefaults(
+  defineProps&lt;{
+    type?: &#39;button&#39; | &#39;submit&#39; | &#39;reset&#39;
+  }&gt;(),
+  {
+    type: &#39;button&#39;
+  }
+)
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;button class=&quot;base-button&quot; :type=&quot;type&quot;&gt;
+    &lt;slot /&gt;
+  &lt;/button&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.base-button {
+  min-height: 44px;
+  padding: 0.75rem 1.25rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.base-button:hover {
+  background: var(--color-primary-dark);
+}
+
+.base-button:active {
+  transform: translateY(1px);
+}
+&lt;/style&gt;
+</code></pre>
+</section>
+<section>
+  <h3>Typography</h3>
+  <p><strong>Atomic Level:</strong> Atom</p>
+  <p><strong>Visual Preview:</strong></p>
+  <img src="screenshots/typography.png" alt="Typography preview" style="max-width: 100%; border: 1px solid #dce4e1; border-radius: 12px;" />
+  <p><strong>Usage Context:</strong> Used for reusable text blocks such as the hero description, about copy, and showcase sample content while preserving semantic tags through the `as` prop.</p>
+  <p><strong>Responsive Logic:</strong> Typography inherits its container width, so the same component flows as a single readable block on mobile and spans wider layouts on tablet and desktop without separate variants.</p>
+  <p><strong>Code Reference:</strong> <code>components/atoms/BaseTypography.vue</code></p>
+  <pre><code>&lt;script setup lang=&quot;ts&quot;&gt;
+withDefaults(
+  defineProps&lt;{
+    as?: string
+    tone?: &#39;default&#39; | &#39;muted&#39; | &#39;accent&#39;
+  }&gt;(),
+  {
+    as: &#39;p&#39;,
+    tone: &#39;default&#39;
+  }
+)
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;component :is=&quot;as&quot; class=&quot;base-typography&quot; :class=&quot;`base-typography--${tone}`&quot;&gt;
+    &lt;slot /&gt;
+  &lt;/component&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.base-typography {
+  margin-top: 0;
+}
+
+.base-typography--muted {
+  color: var(--color-muted);
+}
+
+.base-typography--accent {
+  color: var(--color-primary);
+}
+&lt;/style&gt;
+</code></pre>
+</section>
+<section>
+  <h3>Color Tokens</h3>
+  <p><strong>Atomic Level:</strong> Atom</p>
+  <p><strong>Visual Preview:</strong></p>
+  <img src="screenshots/colors.png" alt="Color Tokens preview" style="max-width: 100%; border: 1px solid #dce4e1; border-radius: 12px;" />
+  <p><strong>Usage Context:</strong> Color, spacing, radius, and shadow tokens centralize visual decisions so the homepage, cards, forms, and navigation share one design vocabulary.</p>
+  <p><strong>Responsive Logic:</strong> The token file does not change by breakpoint; instead, mobile, tablet, and desktop layouts consume the same tokens so spacing and color remain consistent across screens.</p>
+  <p><strong>Code Reference:</strong> <code>app/assets/css/main.css</code></p>
+  <pre><code>:root {
+  --color-primary: #176b55;
+  --color-primary-dark: #0f4f3f;
+  --color-accent: #e6b84a;
+  --color-background: #ffffff;
+  --color-surface: #f5f7f6;
+  --color-surface-strong: #eaf1ee;
+  --color-text: #1d2925;
+  --color-muted: #5d6b66;
+  --color-border: #dce4e1;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.5rem;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+
+  --max-width: 72rem;
+  --shadow-sm: 0 10px 30px rgba(23, 107, 85, 0.08);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-text);
+  background: var(--color-background);
+  line-height: 1.6;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+code,
+pre {
+  font-family: Consolas, &quot;Courier New&quot;, monospace;
+}
+
+.container {
+  width: min(100% - 2rem, var(--max-width));
+  margin-inline: auto;
+}
+
+.section-title {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--color-primary);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.surface-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+</code></pre>
+</section>
+<section>
+  <h3>Icon</h3>
+  <p><strong>Atomic Level:</strong> Atom</p>
+  <p><strong>Visual Preview:</strong></p>
+  <img src="screenshots/icon.png" alt="Icon preview" style="max-width: 100%; border: 1px solid #dce4e1; border-radius: 12px;" />
+  <p><strong>Usage Context:</strong> Wraps small inline SVG icons in the header brand and card location label so decorative graphics remain reusable and accessibility-aware.</p>
+  <p><strong>Responsive Logic:</strong> The icon keeps a compact fixed square that aligns cleanly with nearby text on mobile and remains visually balanced on larger breakpoints.</p>
+  <p><strong>Code Reference:</strong> <code>components/atoms/BaseIcon.vue</code></p>
+  <pre><code>&lt;script setup lang=&quot;ts&quot;&gt;
+withDefaults(
+  defineProps&lt;{
+    label?: string
+  }&gt;(),
+  {
+    label: &#39;&#39;
+  }
+)
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;span
+    class=&quot;base-icon&quot;
+    :aria-hidden=&quot;label ? undefined : &#39;true&#39;&quot;
+    :aria-label=&quot;label || undefined&quot;
+  &gt;
+    &lt;slot /&gt;
+  &lt;/span&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.base-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  color: currentColor;
+  flex: 0 0 auto;
+}
+
+.base-icon :deep(svg) {
+  inline-size: 100%;
+  block-size: 100%;
+}
+&lt;/style&gt;
+</code></pre>
+</section>
+<section>
+  <h3>Image</h3>
+  <p><strong>Atomic Level:</strong> Atom</p>
+  <p><strong>Visual Preview:</strong></p>
+  <img src="screenshots/image.png" alt="Image preview" style="max-width: 100%; border: 1px solid #dce4e1; border-radius: 12px;" />
+  <p><strong>Usage Context:</strong> Displays destination artwork inside cards and the showcase preview while standardizing lazy loading and object-fit behavior.</p>
+  <p><strong>Responsive Logic:</strong> The image fills its parent container at every breakpoint, relying on parent aspect-ratio containers to adapt card and preview proportions across layouts.</p>
+  <p><strong>Code Reference:</strong> <code>components/atoms/BaseImage.vue</code></p>
+  <pre><code>&lt;script setup lang=&quot;ts&quot;&gt;
+withDefaults(
+  defineProps&lt;{
+    src: string
+    alt: string
+    eager?: boolean
+  }&gt;(),
+  {
+    eager: false
+  }
+)
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;img
+    class=&quot;base-image&quot;
+    :src=&quot;src&quot;
+    :alt=&quot;alt&quot;
+    :loading=&quot;eager ? &#39;eager&#39; : &#39;lazy&#39;&quot;
+    decoding=&quot;async&quot;
+  /&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.base-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+&lt;/style&gt;
+</code></pre>
+</section>
+
+  <h2>7. Molecules</h2>
+  <section>
+  <h3>Heritage Card</h3>
+  <p><strong>Atomic Level:</strong> Molecule</p>
+  <p><strong>Visual Preview:</strong></p>
+  <img src="screenshots/heritage-card.png" alt="Heritage Card preview" style="max-width: 100%; border: 1px solid #dce4e1; border-radius: 12px;" />
+  <p><strong>Usage Context:</strong> Used inside the heritage grid and showcase page to present one destination with artwork, location, title, and short descriptive text.</p>
+  <p><strong>Responsive Logic:</strong> Each card fills the width of its grid column: one column on mobile, two on tablet, and three on desktop. Internal padding and image ratio stay stable while the outer grid changes.</p>
+  <p><strong>Code Reference:</strong> <code>components/molecules/HeritageCard.vue</code></p>
+  <pre><code>&lt;script setup lang=&quot;ts&quot;&gt;
+defineProps&lt;{
+  title: string
+  location: string
+  description: string
+  image: string
+  imageAlt: string
+}&gt;()
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;article class=&quot;heritage-card surface-card&quot;&gt;
+    &lt;div class=&quot;heritage-card__image&quot;&gt;
+      &lt;BaseImage :src=&quot;image&quot; :alt=&quot;imageAlt&quot; /&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;heritage-card__content&quot;&gt;
+      &lt;div class=&quot;heritage-card__location&quot;&gt;
+        &lt;BaseIcon&gt;
+          &lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; aria-hidden=&quot;true&quot;&gt;
+            &lt;path
+              d=&quot;M12 21s6-5.373 6-11a6 6 0 1 0-12 0c0 5.627 6 11 6 11Z&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.75&quot;
+            /&gt;
+            &lt;circle cx=&quot;12&quot; cy=&quot;10&quot; r=&quot;2.25&quot; fill=&quot;currentColor&quot; /&gt;
+          &lt;/svg&gt;
+        &lt;/BaseIcon&gt;
+        &lt;span&gt;{{ location }}&lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;h3&gt;{{ title }}&lt;/h3&gt;
+      &lt;BaseTypography&gt;{{ description }}&lt;/BaseTypography&gt;
+    &lt;/div&gt;
+  &lt;/article&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.heritage-card {
+  overflow: hidden;
+}
+
+.heritage-card__image {
+  aspect-ratio: 16 / 10;
+}
+
+.heritage-card__content {
+  padding: var(--space-3);
+}
+
+.heritage-card__location {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.25rem;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+h3 {
+  margin: 0 0 0.5rem;
+}
+
+.base-typography {
+  margin-bottom: 0;
+}
+&lt;/style&gt;
+</code></pre>
+</section>
+<section>
+  <h3>Search Form</h3>
+  <p><strong>Atomic Level:</strong> Molecule</p>
+  <p><strong>Visual Preview:</strong></p>
+  <img src="screenshots/search-form.png" alt="Search Form preview" style="max-width: 100%; border: 1px solid #dce4e1; border-radius: 12px;" />
+  <p><strong>Usage Context:</strong> Used on the homepage to filter destinations by destination title or location using a standard search input bound with `v-model`.</p>
+  <p><strong>Responsive Logic:</strong> The form stacks label, input, and button on narrow screens, then switches to a two-column control row at 40rem and above for tablet and desktop.</p>
+  <p><strong>Code Reference:</strong> <code>components/molecules/SearchForm.vue</code></p>
+  <pre><code>&lt;script setup lang=&quot;ts&quot;&gt;
+const model = defineModel&lt;string&gt;({
+  default: &#39;&#39;
+})
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;form class=&quot;search-form&quot; role=&quot;search&quot; @submit.prevent&gt;
+    &lt;label for=&quot;heritage-search&quot;&gt;Search destinations&lt;/label&gt;
+
+    &lt;div class=&quot;search-form__controls&quot;&gt;
+      &lt;input
+        id=&quot;heritage-search&quot;
+        v-model=&quot;model&quot;
+        type=&quot;search&quot;
+        placeholder=&quot;Search destinations...&quot;
+      /&gt;
+
+      &lt;BaseButton type=&quot;submit&quot;&gt;Search&lt;/BaseButton&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.search-form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.search-form__controls {
+  display: grid;
+  gap: 0.75rem;
+}
+
+label {
+  font-weight: 700;
+}
+
+input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+@media (min-width: 40rem) {
+  .search-form__controls {
+    grid-template-columns: 1fr auto;
+  }
+}
+&lt;/style&gt;
+</code></pre>
+</section>
+<section>
+  <h3>Navigation Item</h3>
+  <p><strong>Atomic Level:</strong> Molecule</p>
+  <p><strong>Visual Preview:</strong></p>
+  <img src="screenshots/navigation-item.png" alt="Navigation Item preview" style="max-width: 100%; border: 1px solid #dce4e1; border-radius: 12px;" />
+  <p><strong>Usage Context:</strong> Provides a reusable text link pattern for the header navigation and showcase route links.</p>
+  <p><strong>Responsive Logic:</strong> Navigation items remain inline and wrap when space is tight on mobile, while the parent header layout places them in a single row on wider screens.</p>
+  <p><strong>Code Reference:</strong> <code>components/molecules/NavigationItem.vue</code></p>
+  <pre><code>&lt;script setup lang=&quot;ts&quot;&gt;
+defineProps&lt;{
+  href: string
+}&gt;()
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;a class=&quot;navigation-item&quot; :href=&quot;href&quot;&gt;
+    &lt;slot /&gt;
+  &lt;/a&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.navigation-item {
+  display: inline-block;
+  padding: 0.5rem;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.navigation-item:hover {
+  text-decoration: underline;
+}
+&lt;/style&gt;
+</code></pre>
+</section>
+
+  <h2>8. Organisms</h2>
+  <section>
+  <h3>Header Navigation</h3>
+  <p><strong>Atomic Level:</strong> Organism</p>
+  <p><strong>Visual Preview:</strong></p>
+  <img src="screenshots/header-navigation.png" alt="Header Navigation preview" style="max-width: 100%; border: 1px solid #dce4e1; border-radius: 12px;" />
+  <p><strong>Usage Context:</strong> Used at the top of the homepage and showcase page to provide brand identity plus quick navigation to key sections and the component showcase route.</p>
+  <p><strong>Responsive Logic:</strong> The header stacks brand and nav links on small screens, then switches to a horizontal flex layout from 48rem upward. Links can still wrap safely when needed.</p>
+  <p><strong>Code Reference:</strong> <code>components/organisms/HeaderNavigation.vue</code></p>
+  <pre><code>&lt;template&gt;
+  &lt;header class=&quot;site-header&quot;&gt;
+    &lt;div class=&quot;container site-header__inner&quot;&gt;
+      &lt;a class=&quot;brand&quot; href=&quot;#top&quot;&gt;
+        &lt;BaseIcon&gt;
+          &lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; aria-hidden=&quot;true&quot;&gt;
+            &lt;path
+              d=&quot;M12 3 4 7v5c0 5 3.4 8 8 9 4.6-1 8-4 8-9V7l-8-4Z&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.75&quot;
+            /&gt;
+            &lt;path
+              d=&quot;M9.5 12.5 11 14l4-4&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.75&quot;
+            /&gt;
+          &lt;/svg&gt;
+        &lt;/BaseIcon&gt;
+        &lt;span&gt;Pangasinan Heritage&lt;/span&gt;
+      &lt;/a&gt;
+
+      &lt;nav aria-label=&quot;Main navigation&quot;&gt;
+        &lt;ul class=&quot;nav-list&quot;&gt;
+          &lt;li&gt;&lt;NavigationItem href=&quot;#top&quot;&gt;Home&lt;/NavigationItem&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;NavigationItem href=&quot;#destinations&quot;&gt;Destinations&lt;/NavigationItem&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;NavigationItem href=&quot;#about&quot;&gt;About&lt;/NavigationItem&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;NavigationItem href=&quot;/showcase&quot;&gt;Showcase&lt;/NavigationItem&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+}
+
+.site-header__inner {
+  padding-block: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--color-primary);
+  font-size: 1.15rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  list-style: none;
+}
+
+@media (min-width: 48rem) {
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-list {
+    margin-top: 0;
+  }
+}
+&lt;/style&gt;
+</code></pre>
+</section>
+<section>
+  <h3>Heritage Grid</h3>
+  <p><strong>Atomic Level:</strong> Organism</p>
+  <p><strong>Visual Preview:</strong></p>
+  <img src="screenshots/heritage-grid.png" alt="Heritage Grid preview" style="max-width: 100%; border: 1px solid #dce4e1; border-radius: 12px;" />
+  <p><strong>Usage Context:</strong> Used on the homepage and showcase page to render the full set of destination cards from the shared destination data module.</p>
+  <p><strong>Responsive Logic:</strong> The grid deliberately follows the assignment rule: one card per row on mobile, two cards per row on tablet, and three cards per row on desktop using CSS media queries.</p>
+  <p><strong>Code Reference:</strong> <code>components/organisms/HeritageGrid.vue</code></p>
+  <pre><code>&lt;script setup lang=&quot;ts&quot;&gt;
+import type { Destination } from &#39;~~/data/destinations&#39;
+
+defineProps&lt;{
+  destinations: Destination[]
+}&gt;()
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div class=&quot;heritage-grid&quot;&gt;
+    &lt;HeritageCard
+      v-for=&quot;destination in destinations&quot;
+      :key=&quot;destination.title&quot;
+      :title=&quot;destination.title&quot;
+      :location=&quot;destination.location&quot;
+      :description=&quot;destination.description&quot;
+      :image=&quot;destination.image&quot;
+      :image-alt=&quot;destination.imageAlt&quot;
+    /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.heritage-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 40rem) {
+  .heritage-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64rem) {
+  .heritage-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+&lt;/style&gt;
+</code></pre>
+</section>
+
+  <h2>9. Responsive Design</h2>
+  <p>The implementation follows the assignment rule directly: the destination grid displays one card per row on mobile, two on tablet, and three on desktop. The browser verification step confirmed these breakpoints with live measurements.</p>
+
+  <h2>10. Accessibility</h2>
+  <ul>
+    <li>Skip link to main content</li>
+    <li>Semantic headings and landmarks</li>
+    <li>44px minimum tap targets for key controls</li>
+    <li>Meaningful image alt text</li>
+    <li>Visible focus styling</li>
+    <li>Search empty-state status message</li>
+  </ul>
+
+  <h2>11. Conclusion</h2>
+  <p>The final component set satisfies the required Atomic Design structure and is already reused in the homepage and showcase routes, which keeps documentation aligned with the actual submitted code.</p>
+</body>
+</html>

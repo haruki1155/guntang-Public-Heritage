@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-labelledby="title desc">
+  <title id="title">Cabongaoan Beach illustration</title>
+  <desc id="desc">Stylized coastline and rock formations representing Cabongaoan Beach.</desc>
+  <defs>
+    <linearGradient id="sea" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#75dff0"/>
+      <stop offset="100%" stop-color="#1d91ad"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="#eaf7ff"/>
+  <rect y="290" width="1200" height="460" fill="url(#sea)"/>
+  <path d="M0 510c164-18 282-2 404 58s214 86 344 60 250-108 452-132v254H0Z" fill="#f4deb7"/>
+  <path d="M806 224c70 0 126 54 126 120v26c0 30-24 54-54 54H734c-30 0-54-24-54-54v-26c0-66 56-120 126-120Z" fill="#80654e"/>
+  <path d="M946 194c52 0 94 42 94 94v20c0 24-20 44-44 44h-100c-24 0-44-20-44-44v-20c0-52 42-94 94-94Z" fill="#92745c"/>
+  <text x="72" y="104" fill="#1d2925" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700">Cabongaoan Beach</text>
+  <text x="72" y="162" fill="#176b55" font-family="Arial, Helvetica, sans-serif" font-size="34">Burgos, Pangasinan</text>
+</svg>

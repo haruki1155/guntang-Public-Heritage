@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Framework Selection Report</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 2rem auto; color: #1d2925; max-width: 980px; line-height: 1.6; }
+    h1, h2, h3 { color: #176b55; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0 2rem; }
+    th, td { border: 1px solid #dce4e1; padding: 0.75rem; vertical-align: top; text-align: left; }
+    th { background: #f5f7f6; }
+    code, pre { font-family: Consolas, "Courier New", monospace; }
+    .note { padding: 1rem; background: #f5f7f6; border-left: 4px solid #176b55; }
+  </style>
+</head>
+<body>
+  <h1>Framework Selection Report</h1>
+  <p><strong>Student:</strong> GUNTANG, MORRIS JINN R.</p>
+
+  <h2>1. Introduction</h2>
+  <p>This report compares React + Next.js 14 (App Router) and Vue + Nuxt 3/4-era tooling for the Pangasinan Heritage Digital Showcase. The target system is a small, mobile-first, static tourism website that must remain accessible, maintainable, and suitable for GitHub Pages deployment.</p>
+
+  <h2>2. Project Requirements</h2>
+  <ul>
+    <li>Fast loading on mobile networks</li>
+    <li>Atomic Design component structure</li>
+    <li>Static generation and GitHub Pages readiness</li>
+    <li>Beginner-friendly code that is easy to explain</li>
+    <li>Accessible semantic HTML and responsive layouts</li>
+  </ul>
+
+  <h2>3. Frameworks Compared</h2>
+  <h3>3.1 Next.js 14 / React</h3>
+  <p>Next.js 14 uses the App Router inside the <code>app</code> directory and supports layouts, nested routes, Server Components, and static export via <code>output: 'export'</code>.</p>
+  <h3>3.2 Nuxt 3 / Vue</h3>
+  <p>Nuxt provides file-based routing, component auto-imports, SSR by default, and static generation with <code>nuxt generate</code>. The official GitHub Pages deployment guide also documents the <code>github_pages</code> preset.</p>
+
+  <h2>4. Evaluation Method</h2>
+  <p>The score for each criterion uses a 1-5 scale, where 5 means the framework is the strongest fit for this specific assignment. Weighted totals are computed as <code>weight × (score / 5)</code>. Quantitative claims are limited to official documentation, GitHub repository data, and local benchmark measurements taken on 2026-09-01 using fresh official starters under Node.js 24.18.0.</p>
+  <div class="note">
+    <p><strong>Important measurement note:</strong> the two frameworks do not report identical build metrics. Next.js reports route-level first-load JavaScript, while Nuxt exposes chunk and generated-output sizes. The comparison therefore uses those official outputs carefully and supplements them with local install footprint and requirement fit.</p>
+  </div>
+
+  <h2>5. Quantitative and Weighted Comparison</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Criterion</th>
+        <th>Weight</th>
+        <th>Nuxt Score</th>
+        <th>Next.js 14 Score</th>
+        <th>Evidence / Method</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Bundle / performance</td><td>25</td><td>4</td><td>4</td><td>Local starter benchmark on 2026-09-01: Nuxt starter `node_modules` was 168,715,739 bytes and generated a 231,597-byte static output. Next.js 14 starter `node_modules` was 230,855,749 bytes, while `next build` reported 92.7 kB first-load JS for `/`. Result: both are performant enough for a small static showcase, with Nuxt showing the lighter local setup footprint and Next showing a smaller reported default first-load JS.</td></tr>
+<tr><td>Developer velocity</td><td>20</td><td>5</td><td>4</td><td>Nuxt documentation emphasizes writing `.vue` files immediately with auto-imports, zero-config TypeScript, file-based routing, and configured build tooling. That matched this project well: the showcase was assembled directly from SFCs without manual component imports in every page.</td></tr>
+<tr><td>Ecosystem maturity</td><td>10</td><td>4</td><td>5</td><td>GitHub repository metrics on 2026-09-01 showed `nuxt/nuxt` at 60,807 stars and `vercel/next.js` at 142,054 stars. Both are mature; Next.js has the larger ecosystem signal.</td></tr>
+<tr><td>Learning curve</td><td>10</td><td>5</td><td>3</td><td>Nuxt presents a beginner-friendly single-file component model. By contrast, Next.js 14 App Router documentation introduces additional React-specific concepts such as Server Components, Client Components, layouts, loading states, and multiple special files.</td></tr>
+<tr><td>Component architecture</td><td>15</td><td>5</td><td>4</td><td>The assignment requires Atomic Design and reusable UI building blocks. Vue single-file components keep template, script, and style together, which made atoms, molecules, and organisms straightforward to organize and document.</td></tr>
+<tr><td>Documentation / community support</td><td>10</td><td>4</td><td>5</td><td>Both frameworks have strong official documentation. Next.js benefits from a broader React community footprint, while Nuxt provides focused official guidance for routing, rendering, and GitHub Pages deployment.</td></tr>
+<tr><td>Project suitability</td><td>10</td><td>5</td><td>4</td><td>This project is a small, content-driven, static tourism showcase. Nuxt directly supports `nuxt generate`, file-based routing, component auto-imports, and a GitHub Pages deployment preset, which aligns closely with the assignment requirements and the final local build that produced a working 277,032-byte static site.</td></tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Total</th>
+        <th>100</th>
+        <th>91.0</th>
+        <th>82.0</th>
+        <th>Weighted total = sum of weight × (score / 5)</th>
+      </tr>
+    </tfoot>
+  </table>
+
+  <h2>6. Qualitative Comparison</h2>
+  <p>Next.js 14 is excellent for React teams and has strong ecosystem maturity. However, the Pangasinan showcase does not need complex server features. The assignment prioritizes a clean component hierarchy, beginner readability, and a simple static deployment path, all of which align closely with Nuxt's conventions.</p>
+
+  <h2>7. Selected Framework</h2>
+  <p><strong>Selected framework: Vue + Nuxt.</strong></p>
+
+  <h2>8. Project Suitability</h2>
+  <p>The final local implementation confirms the selection. The Nuxt project renders five destinations, filters them on the client, generates static output successfully, and includes a dedicated component showcase page for documentation. Browser verification also confirmed the required 1 / 2 / 3-column grid behavior across mobile, tablet, and desktop breakpoints.</p>
+
+  <h2>9. Conclusion</h2>
+  <p>Both frameworks are capable of delivering a high-quality static showcase. Next.js 14 remains a strong option, especially for established React teams, but Nuxt is the better fit for this assignment because it offers a gentler learning curve, clean single-file component organization, and a direct path to the required static deployment workflow.</p>
+
+  <h2>10. References</h2>
+  <ol>
+    <li>Nuxt Introduction: https://nuxt.com/docs/4.x/getting-started/introduction</li>
+    <li>Nuxt GitHub Pages Deployment: https://nuxt.com/deploy/github-pages</li>
+    <li>Next.js 14 Routing Fundamentals: https://nextjs.org/docs/14/app/building-your-application/routing</li>
+    <li>Next.js 14 Static Exports: https://nextjs.org/docs/14/app/building-your-application/deploying/static-exports</li>
+    <li>GitHub repository data for <code>nuxt/nuxt</code> and <code>vercel/next.js</code>, captured on 2026-09-01.</li>
+    <li>Local benchmark measurements stored in the session workspace for fresh Nuxt and Next 14 starters.</li>
+  </ol>
+
+  <p><small>Project static verification note: the final Pangasinan site generated successfully, and its current prerendered <code>index.html</code> file is 17,408 bytes within a 277,032-byte static output directory.</small></p>
+</body>
+</html>
