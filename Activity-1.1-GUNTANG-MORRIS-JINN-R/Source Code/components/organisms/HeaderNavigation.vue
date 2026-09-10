@@ -1,7 +1,7 @@
 <template>
   <header class="site-header">
     <div class="container site-header__inner">
-      <a class="brand" href="#top">
+      <a class="brand" href="/#top">
         <BaseIcon>
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
@@ -25,9 +25,9 @@
 
       <nav aria-label="Main navigation">
         <ul class="nav-list">
-          <li><NavigationItem href="#top">Home</NavigationItem></li>
-          <li><NavigationItem href="#destinations">Destinations</NavigationItem></li>
-          <li><NavigationItem href="#about">About</NavigationItem></li>
+          <li><NavigationItem href="/#top">Home</NavigationItem></li>
+          <li><NavigationItem href="/#destinations">Destinations</NavigationItem></li>
+          <li><NavigationItem href="/#about">About</NavigationItem></li>
           <li><NavigationItem href="/showcase">Showcase</NavigationItem></li>
         </ul>
       </nav>

@@ -1,0 +1,138 @@
+ATOMIC DESIGN SYSTEM MANUAL
+Pangasinan Heritage Digital Showcase
+============================================================
+
+1. SYSTEM OVERVIEW
+------------------
+This Nuxt project uses Atomic Design to keep the tourism showcase
+consistent and maintainable. Small interface primitives are composed
+into focused controls, then into page-level experiences.
+
+Source of truth:
+- Design tokens: app/assets/css/main.css
+- Component behavior and styles: each component's .vue file
+
+2. DESIGN PRINCIPLES
+--------------------
+Clear and welcoming
+Use short descriptions, strong headings, and generous spacing so
+destinations are easy to scan.
+
+Mobile first
+Start with a single-column layout, then enhance it at 40rem, 48rem,
+and 64rem breakpoints.
+
+Accessible by default
+Use semantic landmarks, visible focus states, descriptive image alt
+text, and a 44px minimum interactive target.
+
+3. DESIGN TOKENS
+----------------
+Colors:
+- --color-primary: #176B55
+- --color-primary-dark: #0F4F3F
+- --color-accent: #E6B84A
+- --color-background: #FFFFFF
+- --color-surface: #F5F7F6
+- --color-surface-strong: #EAF1EE
+- --color-text: #1D2925
+- --color-muted: #5D6B66
+- --color-border: #DCE4E1
+
+Spacing:
+- --space-1: 0.5rem
+- --space-2: 1rem
+- --space-3: 1.5rem
+- --space-4: 2rem
+- --space-5: 3rem
+- --space-6: 4rem
+
+Shape and elevation:
+- --radius-sm: 0.5rem
+- --radius-md: 0.875rem
+- --radius-lg: 1.5rem
+- --shadow-sm: 0 10px 30px rgba(23, 107, 85, 0.08)
+
+Typography uses Arial, Helvetica, sans-serif. Eyebrows are uppercase
+and bold. Page titles use responsive clamp() sizing. Supporting copy
+uses --color-muted.
+
+4. ATOMIC INVENTORY
+-------------------
+Atoms
+- BaseTypography: semantic text wrapper with default, muted, and accent tones.
+- BaseImage: responsive image with alt text and runtime base-path support.
+- BaseIcon: consistent icon sizing wrapper.
+- BaseButton: primary button with button type and interaction states.
+
+Molecules
+- SearchForm: labeled destination search input and submit button.
+- NavigationItem: reusable Nuxt route or regular anchor navigation item.
+- HeritageCard: destination image, location, title, summary, and detail link.
+
+Organisms
+- HeaderNavigation: brand and primary navigation.
+- HeritageGrid: typed destination collection with responsive card layout.
+
+Pages
+- app/pages/index.vue: landing page, search, destination grid, and about section.
+- app/pages/destinations/[slug].vue: reusable detail page for all five destinations.
+- app/pages/showcase.vue: component showcase/documentation view.
+
+5. COMPONENT GUIDANCE
+---------------------
+BaseTypography:
+Use for paragraph copy. Apply tone="muted" for supporting text and
+as="..." when a different semantic element is needed.
+
+    <BaseTypography tone="muted">
+      Supporting destination copy.
+    </BaseTypography>
+
+BaseButton:
+Use for actions inside forms or interfaces that need a button. Set
+type explicitly when the context is submit or reset.
+
+    <BaseButton type="submit">Search</BaseButton>
+
+HeritageCard:
+Receives destination data through props and should not own data-fetching
+logic. It links to /destinations/{slug}.
+
+HeritageGrid:
+Receives a typed Destination[] and renders cards in one, two, or three
+columns using container queries.
+
+6. DATA AND PAGE COMPOSITION
+----------------------------
+All five destinations are defined in data/destinations.ts. Every item
+has a stable slug, title, location, summary, detail copy, image, and
+accessible image alt text.
+
+    destinations
+        -> HeritageGrid
+            -> HeritageCard
+                -> /destinations/[slug]
+        -> shared tokens and primitives
+
+The dynamic page looks up the slug, renders the shared detail layout,
+sets page metadata, and returns a 404 error for unknown destinations.
+
+7. ACCESSIBILITY CHECKLIST
+--------------------------
+- Use one clear h1 per page and logical heading order.
+- Keep navigation inside a labeled nav landmark.
+- Provide meaningful alt text for destination imagery.
+- Preserve :focus-visible styles and keyboard access.
+- Use semantic links for navigation and buttons for actions.
+- Keep interactive controls at least 44px high.
+
+8. EXTENSION RULES
+------------------
+When adding a destination, add one typed object to data/destinations.ts
+with a unique slug and image alt text. Reuse HeritageCard and the
+dynamic detail route before creating a new component. Add a new atom
+only when its visual or behavior is genuinely reusable across multiple
+molecules.
+
+Generated for the Pangasinan Heritage Digital Showcase.
