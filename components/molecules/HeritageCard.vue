@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   title: string
+  slug: string
   location: string
   description: string
   image: string
@@ -31,8 +32,11 @@ defineProps<{
         <span>{{ location }}</span>
       </div>
 
-      <h3>{{ title }}</h3>
+      <h3><NuxtLink :to="`/destinations/${slug}`">{{ title }}</NuxtLink></h3>
       <BaseTypography>{{ description }}</BaseTypography>
+      <NuxtLink class="heritage-card__link" :to="`/destinations/${slug}`">
+        View destination details <span aria-hidden="true">→</span>
+      </NuxtLink>
     </div>
   </article>
 </template>
@@ -61,6 +65,27 @@ defineProps<{
 
 h3 {
   margin: 0 0 0.5rem;
+}
+
+h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h3 a:hover,
+h3 a:focus-visible,
+.heritage-card__link:hover,
+.heritage-card__link:focus-visible {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.heritage-card__link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
 }
 
 .base-typography {

@@ -12,6 +12,7 @@ defineProps<{
       v-for="destination in destinations"
       :key="destination.title"
       :title="destination.title"
+      :slug="destination.slug"
       :location="destination.location"
       :description="destination.description"
       :image="destination.image"
